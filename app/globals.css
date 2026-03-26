@@ -239,6 +239,7 @@ button{
 
 /* Clase para el diseno de el nombre de los pokemon en la tarjeta*/
 .poke_title{
+    color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
