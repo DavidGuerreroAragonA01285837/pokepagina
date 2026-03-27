@@ -63,11 +63,31 @@ export default function poke_pagina(){
         }
     }, [current_id]);
 
+    useEffect(() => {
+        if (selectedId != ""){
+            setSelectedPokemon("");
+            setSelectedType("none");
+        }
+    }, [selectedId]);
+
+    useEffect(() => {
+        if (selectedPokemon != ""){
+            setSelectedId("");
+            setSelectedType("none");
+        }
+    }, [selectedPokemon]);
+
+    useEffect(() => {
+        if (selectedType != "none"){
+        setSelectedPokemon("");
+        setSelectedId("");}
+    }, [selectedType]);
+
     async function addPokemon(){
         const typeOfCall = getCacheType();
         console.log(typeOfCall);
         const promises = [];
-        const res = await fetch(`/API/getPokemon?filter=${typeOfCall}&id=${current_id}&type=${selectedType}`);
+        const res = await fetch(`/API/getPokemon?filter=${typeOfCall}&id=${current_id}&type=${selectedType}&name=${selectedPokemon}&idSelected=${selectedId}`);
         const newPokemon = await res.json();
         setPokemonList(prev => [...prev, ...newPokemon]);
         setCurrentid(current_id + 20);
@@ -78,7 +98,7 @@ export default function poke_pagina(){
             <div id="header-container" className="header"><Header /></div>
             <h1 className="title">Who is that Pokemon?</h1>
             <div className="pokefilters">
-                <input type="number" id="pokeid"  placeholder="Id Pokemon" value={selectedId} onChange={(e) => setSelectedId(e.target.value)}/>
+                <input type="text" id="pokeid"  placeholder="Id Pokemon" value={selectedId} onChange={(e) => setSelectedId(e.target.value)}/>
                 <input type="text" id="pokename"  placeholder="Name" value={selectedPokemon} onChange={(e)  => setSelectedPokemon(e.target.value)}/>
                 <select id="type" className="type-selector" value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
                     <option value="none">Select a type</option>

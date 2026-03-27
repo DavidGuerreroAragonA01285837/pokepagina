@@ -1,3 +1,4 @@
+import poke_card from "@/app/components/PokeCards/infoCard";
 import fs, { readFileSync } from "fs";
 
 export async function GET(request: Request){
@@ -47,6 +48,8 @@ export async function GET(request: Request){
     const filterType = searchParams.get("filter");
     const id = Number(searchParams.get("id"));
     const type = String(searchParams.get("type"));
+    const name = String(searchParams.get("name"));
+    const id_selected = Number(searchParams.get("idSelected"));
 
     let data: CacheData = {
         "CacheByID": {},
@@ -59,12 +62,17 @@ export async function GET(request: Request){
 
     if (data != null){
         const pokemon_to_add = [];
-        if (filterType == "CacheByID"){
-            
-            for (let i = id; i < id + 20; i++){
-                pokemon_to_add.push(data["CacheByID"][i]);
+        if (filterType == "CacheByIDselected"){
+            if (data["CacheByID"][id_selected] != null){
+                return Response.json([data["CacheByID"][id_selected]]);
             }
-            return Response.json(pokemon_to_add);
+            return Response.json([]);
+        }
+        else if (filterType == "CacheByName"){
+            if (data["CacheByName"][name] != null){
+                return Response.json([data["CacheByName"][name]]);
+            }
+            return Response.json([]);
         }
         else if (filterType == "CacheByType"){
             for (let i = id; i < id + 20; i ++){
@@ -74,6 +82,13 @@ export async function GET(request: Request){
                 else{
                     break
                 };
+            }
+            return Response.json(pokemon_to_add);
+        }
+        else{
+            
+            for (let i = id; i < id + 20; i++){
+                pokemon_to_add.push(data["CacheByID"][i]);
             }
             return Response.json(pokemon_to_add);
         }

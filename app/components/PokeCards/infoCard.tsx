@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import TypePill from "../typePill/typePill";
+import MovePill from "../movePill/movePill";
 
 type Stats = {
     hp: number,
@@ -36,18 +38,18 @@ export default function poke_card({ pokemon }: { pokemon: Pokemon }){
                 <div className="card-front">
                     <div className="poke_title" id="name">{pokemon.name}</div>
                     <img src={pokemon.image} className="sprite" id="sprite" />
-                    <div className="horizontal" id="types">{pokemon.types}</div>
+                    <div className="horizontal" id="types">{pokemon.types.map((t, index) => (<TypePill key={`${pokemon.name}type${String(index)}`} pokemonType={t}/>))}</div>
                 </div>
                 <div className="card-back"> 
                     <div className="stat_container" id="stats">
-                        <p className="pokestat" id="hp">{pokemon.stats.hp}</p>
-                        <p className="pokestat" id="attack">{pokemon.stats.attack}</p>
-                        <p className="pokestat" id="defense">{pokemon.stats.defense}</p>
-                        <p className="pokestat" id="spe-attack">{pokemon.stats.spe_attack}</p>
-                        <p className="pokestat" id="spe-defense">{pokemon.stats.spe_defense}</p>
-                        <p className="pokestat" id="speed">{pokemon.stats.speed}</p>
+                        <p className="pokestat" id="hp">HP: {pokemon.stats.hp}</p>
+                        <p className="pokestat" id="attack">ATT: {pokemon.stats.attack}</p>
+                        <p className="pokestat" id="defense">DEF: {pokemon.stats.defense}</p>
+                        <p className="pokestat" id="spe-attack">SPE ATT: {pokemon.stats.spe_attack}</p>
+                        <p className="pokestat" id="spe-defense">SPE DEF: {pokemon.stats.spe_defense}</p>
+                        <p className="pokestat" id="speed">SPE: {pokemon.stats.speed}</p>
                     </div>
-                    <div className ="move_container" id="moves">{pokemon.moves[0].name}</div>
+                    <div className ="move_container" id="moves">{pokemon.moves.map((m,index) => (<MovePill key={`${pokemon.name}Move${String(index)}`} pokemonType={m.type} move={m.name}/>))}</div>
                 </div>
             </div>
     );
